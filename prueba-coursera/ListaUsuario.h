@@ -13,6 +13,7 @@ private:
     vector<T> valor;
 
 public:
+
     void agregar(const T& elemento) {
         valor.push_back(elemento);
     }

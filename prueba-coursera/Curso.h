@@ -21,14 +21,21 @@ public:
 		: _codigoCurso(codigoCurso), _nombreCurso(nombreCurso), _certificado(certificado), _categoria(categoria),
 		_duracion(duracion), _precio(precio) {
 	}
-
+	//getters
 	int get_CodigoCurso() const { return _codigoCurso; }
 	string get_NombreCurso() const { return _nombreCurso; }
 	bool get_Certificado() const { return _certificado; }
 	string get_Categoria() const { return _categoria; }
 	string get_Duracion() const { return _duracion; }
 	double get_Precio() const { return _precio; }
-
+	//setters
+	void set_CodigoCurso(int codigoCurso) { _codigoCurso = codigoCurso; }
+	void set_NombreCurso(const string& nombreCurso) { _nombreCurso = nombreCurso; }
+	void set_Certificado(bool certificado) { _certificado = certificado; }
+	void set_Categoria(const string& categoria) { _categoria = categoria; }
+	void set_Duracion(const string& duracion) { _duracion = duracion; }
+	void set_Precio(double precio) { _precio = precio; }
+	//metodos
 	void mostrarCurso() const {
 		// codigo, nombre, certificado, categoria, duracion, precio 
 		cout << "[" << _codigoCurso << "] " 
@@ -38,7 +45,6 @@ public:
 			<< _duracion << " - $" 
 			<< _precio << endl;
 	}
-
 	void guardarArchivo(ofstream& archivo) const {
 		archivo << _codigoCurso << ","
 			<< _nombreCurso << ","
@@ -47,7 +53,6 @@ public:
 			<< _duracion << ","
 			<< _precio << endl;
 	}
-
 	static Curso<T> cargarDesdeLineaCu(const string& linea) {
 		string codigoS, nombre, certificadoS, categoria, duracion, precioS;
 		stringstream ss(linea);

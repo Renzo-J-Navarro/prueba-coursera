@@ -118,6 +118,7 @@
     <ClInclude Include="Pago.h" />
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Usuario.h" />
+    <ClInclude Include="Venta.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="prueba-coursera.cpp" />

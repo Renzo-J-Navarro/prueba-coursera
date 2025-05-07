@@ -12,17 +12,16 @@ template <typename T>
 class Pago {
 private:
 	T _metodoPago;
-	Cliente<T> pCliente;
-	Curso<T> pCurso;
+	Cliente<T> vCliente;
+	Curso<T> vCurso;
 public:
 	Pago(const T& metodoPago = "N/A", const Cliente<T>& cliente, const Curso<T>& curso)
-		: _metodoPago(metodoPago), pCliente(cliente), pCurso(curso) {}
+		: _metodoPago(metodoPago), pCliente(cliente), pCurso(curso) {
+	}
 
-	//getters
+
 	T get_MetodoPago() const { return _metodoPago; }
-	//setters
-	void set_MetodoPago(const T& metodoPago) { _metodoPago = metodoPago; }
-	//metodos
+
 	string SerializarPago() const {
 		stringstream ss;
 		ss << pCliente.get_correo() << "," << pCurso.get_CodigoCurso() << "," << pCurso.get_NombreCurso() << ","
