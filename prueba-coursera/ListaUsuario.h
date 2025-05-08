@@ -57,6 +57,15 @@ public:
         return false;
     }
 
+	bool existeContrasena(const string& contra) const {
+		for (const auto& elemento : valor) {
+			if (elemento.getCliente().get_contraseña() == contra) {
+				return true;
+			}
+		}
+		return false;
+	}
+
     void guardarArchivo(ofstream& archivo) const {
         for (const auto& elemento : valor) {
             archivo << elemento.serializarUsuario() << endl;

@@ -1,164 +1,265 @@
-#include <iostream>
 #include <fstream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
+#include <conio.h>
 #include <limits>
+
+#include "Curso.h"
+#include "Usuario.h"
+#include "Boleta.h"
 #include "ListaCurso.h"
 #include "ListaUsuario.h"
 using namespace std;
 
-// Clase Plataforma con templates, lambdas y recursividad
+//Menu de acciones para el usuario
+static void menuCurso() {
+    cout << "\n\t---* Biblioteca de Cursos *---\n";
+    cout << "1. Mostrar todos los Cursos" << endl;
+    cout << "2. Listar cursos por su Precio" << endl;
+    cout << "3. Buscar Cursos por Categoria" << endl;
+    cout << "4. Buscar Cursos por Precio" << endl;
+    cout << "5. Salir" << endl;
+    cout << "Seleccione una opcion: ";
+}
+static void menuUsuario() {
+    cout << "\n\t---* Que deseas hacer hoy ? *---\n";
+    cout << "1. Ver catalago de Cursos" << endl;
+    cout << "2. Comprar Cursos y Certificados" << endl;
+    cout << "3. Mostrar Compras Realizadas" << endl;
+    cout << "4. Ver estado Premium" << endl;
+    cout << "5. Elimar Cuenta Usuario" << endl;
+	cout << "6. Salir" << endl;
+    cout << "Seleccione una opcion: ";
+}
+static void menuPlataforma() {
+    cout << "\n\t===*=== MENU PLATAFORMA ===*===\n";
+    cout << "1. Crear Usuario." << endl;
+    cout << "2. Eliminar Usuario." << endl;
+    cout << "3. Completar Pagos" << endl;
+    cout << "4. Salir\n";
+    cout << "Seleccione una opción: ";
+}
 
 template <typename T>
 class Plataforma {
 private:
-    ListaCurso<Curso<T>> listaCursos;
-    ListaUsuario<Usuario<T>> listaUsuarios;
+    ListaUsuario<Usuario<T>> listaUsuario;
+    ListaCurso<Curso<T>> listaCurso;
 
 public:
-    void cargarCursosDesdeArchivo(const string& nombreArchivo) {
-        ifstream archivo(nombreArchivo);
-        if (!archivo.is_open()) {
-            cout << "No se pudo abrir el archivo de cursos.\n";
-            return;
+    // se creara un usuario
+    int crearUsuario() const {
+        string nombre, profesion, correo, contra, telefono;
+        char premiumChar;
+        bool premium = false;
+
+        cout << "\nNombre completo: "; getline(cin, nombre);
+        cout << "Profesion: "; getline(cin, profesion);
+        cout << "Correo: "; getline(cin, correo);
+
+        // verificamos si el correo ya existe
+        if (listaUsuario.existeCorreo(correo)) {
+            cout << "\n\tYa se creo una Cuenta con este correo ..!!.\n";
+            continue;
         }
-        cargarCursosRecursivo(archivo);
-        archivo.close();
-    }
 
-    void cargarUsuariosDesdeArchivo(const string& nombreArchivo) {
-        ifstream archivo(nombreArchivo);
-        if (!archivo.is_open()) {
-            cout << "No se pudo abrir el archivo de usuarios.\n";
-            return;
+        cout << "Contrasena: "; getline(cin, contra);
+        cout << "Telefono: "; getline(cin, telefono);
+        cout << "Desea obtener Premium? (s/n): "; cin >> premiumChar; cin.ignore();
+
+        if (premiumChar == 's' || premiumChar == 'S') { premium = true; }
+
+        Cliente<string> nuevoCliente(nombre, profesion, correo, contra, telefono);
+        Usuario<string> nuevoUsuario(nuevoCliente, premium);
+        listaUsuarios.agregar(nuevoUsuario);
+
+        // Se guarda directamente en el archivo
+        ofstream archivo("usuarios.txt", ios::app);
+        if (archivo.is_open()) {
+            archivo << nuevoUsuario.serializarUsuario() << endl;
+            archivo.close();
         }
-        cargarUsuariosRecursivo(archivo);
-        archivo.close();
-    }
-
-    void buscarCursosPorPrecio(double precioMax) {
-        listaCursos.filtrarCursos([precioMax](const Curso<T>& c) {
-            return c.get_precio() <= precioMax;
-            });
-    }
-
-    void buscarCursosPorCategoria(const string& categoria) {
-        listaCursos.filtrarCursos([categoria](const Curso<T>& c) {
-            return c.get_categoria() == categoria;
-            });
-    }
-
-    void mostrarCursos() {
-        cout << "\n--- Cursos Registrados ---\n";
-        mostrarCursosRecursivo(listaCursos.getCabeza());
-    }
-
-    void mostrarUsuariosPremium() {
-        listaUsuarios.ordenarPremium();
-        listaUsuarios.mostrar();
-    }
-
-    void agregarCurso(const Curso<T>& curso) {
-        listaCursos.agregar(curso);
-    }
-
-    void agregarUsuario(const Usuario<T>& usuario) {
-        listaUsuarios.agregar(usuario);
-    }
-
-private:
-    void cargarCursosRecursivo(ifstream& archivo) {
-        string linea;
-        if (getline(archivo, linea)) {
-            Curso<T> curso = Curso<T>::cargarDesdeLineaCu(linea);
-            if (!listaCursos.existeCodigo(to_string(curso.get_CodigoCurso())))
-                listaCursos.agregar(curso);
-            cargarCursosRecursivo(archivo);
+        else
+        {
+            cout << "\n\tError al abrir el archivo.\n";
         }
+
+        cout << "\nUsuario registrado exitosamente.\n";
     }
+	// se cargaran los usuarios y cursos registrados en el archivo
+    void cargarDatos() {
+		// Cargar usuarios desde archivo
+        ifstream archivo("usuarios.txt");
+        if (archivo.is_open()) {
+            string linea;
+            int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
+            while (getline(archivo, linea)) {
+                Usuario<string> usuario = Usuario<string>::cargarDesdeLineaUs(linea);
+                string correo = usuario.getCliente().get_correo();
 
-    void cargarUsuariosRecursivo(ifstream& archivo) {
-        string linea;
-        if (getline(archivo, linea)) {
-            Usuario<T> usuario = Usuario<T>::cargarDesdeLineaUs(linea);
-            if (!listaUsuarios.existeCorreo(usuario.getCliente().get_correo()))
-                listaUsuarios.agregar(usuario);
-            cargarUsuariosRecursivo(archivo);
-        }
-    }
-
-    void mostrarCursosRecursivo(Nodo<Curso<T>>* nodo) {
-        if (nodo != nullptr) {
-            nodo->getValor().mostrarCurso();
-            mostrarCursosRecursivo(nodo->getSiguiente());
-        }
-    }
-};
-
-// Menú principal de plataforma
-void menuPlataforma() {
-    cout << "\n===== MENU PLATAFORMA =====\n";
-    cout << "1. Cargar Usuarios desde archivo\n";
-    cout << "2. Cargar Cursos desde archivo\n";
-    cout << "3. Mostrar Cursos\n";
-    cout << "4. Buscar Cursos por Categoría\n";
-    cout << "5. Buscar Cursos por Precio\n";
-    cout << "6. Mostrar Usuarios Premium\n";
-    cout << "7. Salir\n";
-    cout << "Seleccione una opción: ";
-}
-
-int main() {
-    Plataforma<string> plataforma;
-    int opcion;
-
-    do {
-        menuPlataforma();
-        while (!(cin >> opcion)) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "\nEntrada invalida. Ingrese un número: ";
-        }
-        cin.ignore();
-
-        switch (opcion) {
-        case 1:
-            plataforma.cargarUsuariosDesdeArchivo("usuarios.txt");
-            break;
-        case 2:
-            plataforma.cargarCursosDesdeArchivo("cursos.txt");
-            break;
-        case 3:
-            plataforma.mostrarCursos();
-            break;
-        case 4: {
-            string categoria;
-            cout << "Ingrese la categoría: ";
-            getline(cin, categoria);
-            plataforma.buscarCursosPorCategoria(categoria);
-            break;
-        }
-        case 5: {
-            double precio;
-            cout << "Ingrese el precio máximo: ";
-            while (!(cin >> precio)) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Entrada invalida. Ingrese un número: ";
+                if (!listaUsuario.existeCorreo(correo)) {
+                    listaUsuario.agregar(usuario);
+                    cargados++;
+                }
+                else {
+                    duplicados++;
+                }
             }
-            cin.ignore();
-            plataforma.buscarCursosPorPrecio(precio);
-            break;
+            archivo.close();
+            cout << "\tUsuarios cargados del archivo: " << cargados << endl;
+            if (duplicados > 0) {
+                cout << "\tUsurio duplicados no cargados: " << duplicados << endl;
+            }
         }
-        case 6:
-            plataforma.mostrarUsuariosPremium();
-            break;
-        case 7:
-            cout << "\nSaliendo del programa...\n";
-            break;
-        default:
-            cout << "\nOpción no válida. Intente nuevamente.\n";
+        else {
+            cout << "\n\tNo se pudo abrir el archivo.\n";
         }
 
-    } while (opcion != 7);
-
-    return 0;
-}
+		// Cargar cursos desde archivo
+        ifstream archivo("cursos.txt");
+        if (archivo.is_open()) {
+            string linea;
+            int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
+            while (getline(archivo, linea)) {
+                Curso<string> curso = Curso<string>::cargarDesdeLineaCu(linea);
+                if (!listaCurso.existeCodigo(curso.get_CodigoCurso())) {
+                    listaCurso.agregar(curso);
+                    cargados++;
+                }
+                else {
+                    duplicados++;
+                }
+            }
+            archivo.close();
+            cout << "\tCursos cargados del archivo: " << cargados << endl;
+            if (duplicados > 0) {
+                cout << "\tCursos duplicados no cargados: " << duplicados << endl;
+            }
+        }
+        else
+        {
+            cout << "\n\tNo se pudo abrir el archivo.\n";
+        }
+    }
+    // el usuario ingresa a al plataforma
+	int ingresarUsuario() const {
+        cargarDatos();
+		string correo, contrasena;
+        int opcionUsuario;
+        int opcionCurso;
+		cout << "\n\t---* Inicie Sesion con su Cuenta *---\n";
+        cout << "Usuario: "; getline(cin, correo);
+		cout << "Contrasena: "; getline(cin, contrasena);
+		// Verifica si el usuario existe
+		if (listaUsuario.existeCorreo(correo) && listaUsuario.existeContrasena(contrasena)) {
+		    cout << "\n\tCoursera te da la Bienvenida *\n";
+			cout << "\n\tQue bueno tenerte de regreso " << correo << endl;
+			system("cls");
+            
+			// Aquí se agrega las acciones que puede accer el usuario
+            do
+            {
+                menuUsuario();
+                while (!(cin >> opcionUsuario)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "\n\tEntrada invalida. Ingrese valores numericos !!! \n";
+                }
+                cin.ignore();
+                if (opcionUsuario == 1) {
+                    do
+                    {
+                        menuCurso();
+                        while (!(cin >> opcionCurso)) {
+                            cin.clear(); // limpia el estado de error
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // limpia el buffer
+                            cout << "\n\tEntrada invalida. Ingrese valores numericos !!! \n";
+                        }
+						cin.ignore();
+						if (opcionCurso == 1) { // mostrar todos los cursos
+							system("cls");
+							cout << "\n\t--- Lista de todos los Cursos ---\n";
+							listaCurso.mostrar();
+						}
+                        // listar cursos por precio
+						else if (opcionCurso == 2) { 
+							system("cls");
+							cout << "\n\t--- Lista de Cursos por Precio ---\n";
+							listaCurso.buscarYOrdenarPorPrecio();
+							listaCurso.mostrar();
+						}
+                        // buscar cursos por categoria
+                        else if (opcionCurso == 3) {
+							system("cls");
+							string categoria;
+							cout << "\nIngresa la categoria de cursos a buscar: ";
+							getline(cin, categoria);
+							listaCurso.buscarPorCategoria(categoria);
+						}
+                        // buscar cursos por precio
+						else if (opcionCurso == 4) { 
+							system("cls");
+							double precioMax;
+							cout << "\nIngrese el precio maximo: ";
+							while (!(cin >> precioMax)) {
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								cout << "\n\tEntrada invalida. Ingrese un precio numerico... \n";
+							}
+							cin.ignore();
+							listaCurso.buscarYOrdenarPorPrecio(precioMax);
+						}
+                        // salir del menu cursos
+						else if (opcionCurso == 5) { 
+							cout << "\n\t\tSaliendo del menu de cursos.....\n";
+						}
+                        else {
+                            cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
+                        }
+                    } while (opcionCurso!=5);
+				}
+				else if (opcionUsuario == 2) { // comprar cursos
+					system("cls");
+					cout << "\n\t--- Comprar Cursos ---\n";
+					listaCurso.mostrar();
+					// Aquí se puede agregar la lógica para comprar cursos
+				}
+				else if (opcionUsuario == 3) { // mostrar compras realizadas
+					system("cls");
+					cout << "\n\t--- Compras Realizadas ---\n";
+					// Aquí se puede agregar la lógica para mostrar compras realizadas
+				}
+				else if (opcionUsuario == 4) { // ver estado premium
+					system("cls");
+					cout << "\n\t--- Estado Premium ---\n";
+					// Aquí se puede agregar la lógica para ver el estado premium
+				}
+				else if (opcionUsuario == 5) {
+					cout << "\n\t\tSaliendo del programa.....\n";
+				}
+                else if (opcionCurso == 6) {
+                    string correo;
+                    cout << "Ingrese el correo del usuario a eliminar: ";
+                    getline(cin, correo);
+                    if (listaUsuario.eliminarPorCorreo(correo)) {
+                        ofstream archivo("usuarios.txt");
+                        if (archivo.is_open()) {
+                            listaUsuario.guardarArchivo(archivo);
+                            archivo.close();
+                            cout << "\nUsuario eliminado y archivo actualizado.\n";
+                        }
+                    }
+                }
+                else {
+                    cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
+                }
+            } while (opcionUsuario != 6);
+		}
+		else {
+			cout << "\n\tUsuario no encontrado.\n";
+		}
+	}
+       
+};

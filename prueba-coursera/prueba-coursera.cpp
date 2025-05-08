@@ -1,7 +1,4 @@
-#include "Usuario.h"
-#include "Curso.h"
-#include "ListaUsuario.h"
-#include "ListaCurso.h"
+#include "Plataforma.h"
 
 #include <fstream>
 #include <vector>
@@ -12,7 +9,7 @@
 
 using namespace std;
 
-static void menuCurso() {
+static void adminMenuCurso() {
     cout << "\n--- MENU CURSOS ---\n";
     cout << "1. Registrar Curso" << endl;
     cout << "2. Mostrar Cursos" << endl;
@@ -23,8 +20,7 @@ static void menuCurso() {
     cout << "7. Salir" << endl;
     cout << "Seleccione una opcion: ";
 }
-
-static void menuUsuario() {
+static void adminMenuUsuario() {
     cout << "\n--- MENU USUARIOS ---\n";
     cout << "1. Registrar Usuario" << endl;
     cout << "2. Mostrar Usuario" << endl;
@@ -34,8 +30,7 @@ static void menuUsuario() {
     cout << "6. Salir" << endl;
     cout << "Seleccione una opcion: ";
 }
-
-static void compilaUsuario() {
+static void admincompilaUsuario() {
 
     ListaUsuario<Usuario<string>> listaUsuario;
     int opcionUsuario;
@@ -49,7 +44,7 @@ static void compilaUsuario() {
         }
         cin.ignore();
 
-        if (opcionUsuario == 1) {
+		if (opcionUsuario == 1) { // registrar usuario
             string nombre, profesion, correo, contra, telefono;
             char premiumChar;
             bool premium = false;
@@ -87,18 +82,18 @@ static void compilaUsuario() {
             
             cout << "\nUsuario registrado exitosamente.\n";
         }
-        else if (opcionUsuario == 2) {
+		else if (opcionUsuario == 2) { // mostrar todos los usuarios
             system("cls");
             cout << "\n\t--- Lista de Usuarios ---\n";
             listaUsuario.mostrar();
         }
-        else if (opcionUsuario == 3) {
+		else if (opcionUsuario == 3) { // listar por premium
             system("cls");
             cout << "\n\t--- Usuarios Premium ---\n";
             listaUsuario.ordenarPremium();  // Ordena por Premium
             listaUsuario.mostrar();
         }
-        else if (opcionUsuario == 4) {
+		else if (opcionUsuario == 4) { // cargar usuarios desde archivo
             system("cls");
             ifstream archivo("usuarios.txt");
             if (archivo.is_open()) {
@@ -126,7 +121,7 @@ static void compilaUsuario() {
                 cout << "\n\tNo se pudo abrir el archivo.\n";
             }
         }
-        else if(opcionUsuario == 5) {
+		else if (opcionUsuario == 5) { // eliminar cuenta usuario
             system("cls");
             string correo;
             cout << "Ingrese el correo del usuario a eliminar: ";
@@ -150,8 +145,7 @@ static void compilaUsuario() {
 
 	} while(opcionUsuario != 6);
 };
-
-static void compilaCurso() {
+static void admincompilaCurso() {
 
 	ListaCurso<Curso<string>> listaCurso;
 	int opcionCurso;
@@ -227,7 +221,7 @@ static void compilaCurso() {
 				cout << "\n\tEntrada invalida. Ingrese un precio numerico... \n";
             }
             cin.ignore();
-			listaCurso.buscarPorPrecio(precioMax);
+			listaCurso.buscarYOrdenarPorPrecio(precioMax);
         }
         else if (opcionCurso == 6) { // cargar cursos desde archivo
 			system("cls");
@@ -237,8 +231,7 @@ static void compilaCurso() {
                 int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
                 while (getline(archivo, linea)) {
                     Curso<string> curso = Curso<string>::cargarDesdeLineaCu(linea);
-					string codigoS = to_string(curso.get_CodigoCurso());
-                    if (!listaCurso.existeCodigo(codigoS)) {
+                    if (!listaCurso.existeCodigo(curso.get_CodigoCurso())) {
                         listaCurso.agregar(curso);
                         cargados++;
                     }
@@ -270,7 +263,37 @@ static void compilaCurso() {
 int main() {
 
     //compilaUsuario();
-    compilaCurso();
+    //compilaCurso();
+    Plataforma<string> listaPlataforma;
+    int opcion;
+    do
+    {
+        menuPlataforma();
+        while (!(cin >> opcion)) {
+            cin.clear(); // limpia el estado de error
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // limpia el buffer
+            cout << "\n\tEntrada invalida. Ingrese valores numericos !!! \n";
+        }
+        cin.ignore();
+
+        if (opcion == 1) {
+            listaPlataforma.crearUsuario();
+        }
+        else if (opcion == 2) {
+            listaPlataforma.ingresarUsuario();
+        }
+        else if (opcion == 3) {
+            cout << "Falta implementar boleta de pago" << endl;
+        }
+        else if (opcion == 4) {
+            cout << "\n\t\tSaliendo del programa.....\n";
+        }
+        else {
+            cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
+        }
+    } while (opcion != 4);
+
+
     system("pause");
     return 0;
 

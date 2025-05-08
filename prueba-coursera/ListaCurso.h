@@ -45,15 +45,25 @@ public:
         }
     }
 
-	// buscar curso por precio con impresión
-    void buscarPorPrecio(double maxPrecio) const {
-        queue<T> cola;
+    // buscar curso por precio con impresión ordenada
+    void buscarYOrdenarPorPrecio(double maxPrecio) const {
+        vector<T> ordenaPrecio;
+
+        // Se busca los cursos por precio menor o igual al máximo
         for (const auto& curso : cursos) {
-            if (curso.get_Precio() <= maxPrecio) cola.push(curso);
+            if (curso.get_Precio() <= maxPrecio) {
+                ordenaPrecio.push_back(curso);
+            }
         }
-        while (!cola.empty()) {
-            cola.front().mostrarCurso();
-            cola.pop();
+
+        // Ordenar los cursos por precio de mayor a menor
+        sort(ordenaPrecio.begin(), ordenaPrecio.end(), [](const T& a, const T& b) {
+            return a.get_Precio() > b.get_Precio();
+            });
+
+        // Muestra los cursos ordenados
+        for (const auto& curso : ordenaPrecio) {
+            curso.mostrarCurso();
         }
     }
 

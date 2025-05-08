@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
 class Boleta {
@@ -33,7 +35,8 @@ public:
 
 	// Getters
 	double getMontoTotal() const { return _montoTotal; }
-
+	double getMontoIGV() const { return _montoIGV; }
+	double getDescuento() const { return _descuento; }
 
     // Metodos
     void generarBoleta() {
@@ -55,23 +58,40 @@ public:
     }
 
     void mostrarBoleta() {
-        cout << "\n--- BOLETA DE VENTA ---" << endl;
-        cout << "Empresa: " << _empresa << endl;
-        cout << "Operacion Nro: " << _numOperacion << endl;
-        cout << "Fecha: " << _fecha << " - Hora: " << _hora << endl;
-        cout << "Cliente: " << _nombreCliente << " (" << _correo << ")" << endl;
-        cout << "Metodo de pago: " << _metodoPago << endl;
+        // lambdas para imprimir el flujo
+        auto boleta = [&](ostream& texto) {
 
-        cout << "\nCursos adquiridos:" << endl;
-        mostrarCursosRecursivo(_cursos, 0);
-
-        cout << "\nCantidad: " << _cantidad;
-        cout << "\nPrecio unitario: " << _precioUnitario;
-        cout << "\nSubtotal: " << _subtotal;
-        cout << "\nDescuento: " << _descuento;
-        cout << "\nIGV (18%): " << _montoIGV;
-        cout << "\nTOTAL A PAGAR: " << _montoTotal << endl;
-        cout << "------------------------" << endl;
+            texto << fixed << setprecision(2); // formatea montos a 2 decimales
+            texto << endl;
+            texto << "\t\t\t\t COURSERA APRENDIZAJE PARA TODOS  \n";
+            texto << "-----------------------------------------------------\n";
+            texto << "\t\t\t\t\tBOLETA ELECTRONICA\n";
+            texto << "-----------------------------------------------------\n";
+            texto << endl;
+            texto << "ID TRANSACCION:      \t" << _numOperacion << endl;
+            texto << "Fecha de Emision:    \t" << _fecha << "\t\tHora: \t" << _hora << endl;
+            texto << "Nombre Titular:      \t" << _nombreCliente << endl;
+            texto << "Metodo de Pago:      \t" << _metodoPago << endl;
+            texto << "Correo Electronico:  \t" << _correo << endl;
+            texto << endl;
+            texto << "------------------------------------------------------\n";
+            texto << "\t\t\t\t\tCURSOS ADQUIRIDOS\n";
+            texto << "------------------------------------------------------\n";
+            mostrarCursosRecursivo(_cursos, 0);
+            texto << "------------------------------------------------------\n";
+            texto << "\tDETALLES DE LA COMPRA\t\n";
+            texto << "\tCantidad \t\t\t\t Precio \t\t\t Subtotal\t\t\n";
+            texto << endl;
+            texto << "\t" << _cantidad << "\t\t\t $" << _precioUnitario << "\t\t\t $" << _subtotal << "\t\n";
+            texto << "------------------------------------------------------\n";
+            texto << "\t\tRESUMEN DE PAGO\t\n";
+            texto << "Subtotal:    \t" << _subtotal << endl;
+            texto << "Descuentos:  \t" << _descuento << endl;
+            texto << "IGV (18%):   \t" << _montoIGV << endl;
+            texto << "Monto Total: \t" << _montoTotal << endl;;
+            texto << endl;
+            texto << "*********************************************************\n";
+            };
     }
 
     void enviarBoleta() {
