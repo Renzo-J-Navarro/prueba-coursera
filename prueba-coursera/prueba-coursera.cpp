@@ -19,9 +19,8 @@ static void menuCurso() {
     cout << "3. Listar por Precio" << endl;
     cout << "4. Buscar por Categoria" << endl;
     cout << "5. Buscar por Precio" << endl;
-    cout << "6. Guardar Cursos en archivo" << endl;
-    cout << "7. Cargar Cursos desde archivo" << endl;
-    cout << "8. Salir" << endl;
+    cout << "6. Cargar Cursos desde archivo" << endl;
+    cout << "7. Salir" << endl;
     cout << "Seleccione una opcion: ";
 }
 
@@ -186,6 +185,16 @@ static void compilaCurso() {
             Curso<string> nuevoCurso(codigo, nombre, certificado, categoria, duracion, precio);
             listaCurso.agregar(nuevoCurso);
 
+            // Se guarda directamente en el archivo
+            ofstream archivo("cursos.txt", ios::app);
+            if (archivo.is_open()) {
+                archivo << nuevoCurso.serializarCurso() << endl;
+                archivo.close();
+            }
+            else
+            {
+                cout << "\n\tError al abrir el archivo.\n";
+            }
             cout << "\nCurso agregado con exito.\n";
         }
         else if (opcionCurso == 2) { // mostrar todos los cursos
@@ -213,37 +222,43 @@ static void compilaCurso() {
 			cin >> precioMax; cin.ignore();
 			listaCurso.buscarPorPrecio(precioMax);
         }
-        else if (opcionCurso == 6) { // guardar cursos en archivo
-            system("cls");
-			ofstream archivo("cursos.txt");
-            if (archivo.is_open()) {
-                listaCurso.guardarArchivo(archivo);
-				archivo.close();
-				cout << "\n\tLos cursos se guardaron en el archivo.\n";
-            }
-            else
-            {
-				cout << "\n\tError al abrir el archivo.\n";
-            }
-        }
-        else if (opcionCurso == 7) { // cargar cursos desde archivo
+        else if (opcionCurso == 6) { // cargar cursos desde archivo
 			system("cls");
 			ifstream archivo("cursos.txt");
+            if(archivo.is_open()) {
+                string linea;
+                int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
+            }
             if (archivo.is_open()) {
                 string linea;
+                    if (!listaUsuario.existeCorreo(correo)) {
+                        listaUsuario.agregar(usuario);
+                        cargados++;
+                    }
+                    else {
+                        duplicados++;
+                    }
+
                 while (getline(archivo, linea)) {
                     Curso<string> curso = Curso<string>::cargarDesdeLineaCu(linea);
-                    listaCurso.agregar(curso);
+					string codigoS = to_string(curso.get_CodigoCurso());
+                    if (!listaCurso.existeCodigo(codigoS)) {
+                        listaCurso.agregar(curso);
+                        cargados++;
+                    }
                 }
                 archivo.close();
-                cout << "\n\tLos Cursos se cargaron desde el archivo.\n";
+                cout << "\n\tCursos cargados del archivo: " << cargadados << endl;
+                if (duplicados > 0) {
+                    cout << "\n\tCursos duplicados no cargados: " << duplicados << endl;
+                }
             }
             else
             {
-				cout << "\n\tError al abrir el archivo.\n";
+				cout << "\n\tNo se pudo abrir el archivo.\n";
             }
         }
-        else if (opcionCurso == 8) {
+        else if (opcionCurso == 7) {
             cout << "\n\t\tSaliendo del programa.....\n";
         }
         else
@@ -251,12 +266,13 @@ static void compilaCurso() {
             cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
         }
 
-    } while (opcionCurso != 8);
+    } while (opcionCurso != 7);
 }
 
 int main() {
 
     compilaUsuario();
+    compilaCurso();
     system("pause");
     return 0;
 

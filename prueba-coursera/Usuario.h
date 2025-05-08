@@ -27,8 +27,7 @@ public:
             << _cliente.get_correo() << ","
             << _cliente.get_contraseña() << ","
             << _cliente.get_telefono() << ","
-            << (_premium ? "1" : "0");
-        cout << endl;
+            << (_premium ? "1" : "0") << endl;
         return ss.str();
     }
 

@@ -53,6 +53,18 @@ public:
 			<< _duracion << ","
 			<< _precio << endl;
 	}
+
+	string serializarCurso() const {
+		stringstream ss;
+		ss << _codigoCurso << ","
+			<< _nombreCurso << ","
+			<< _certificado << ","
+			<< _categoria << ","
+			<< _duracion << ","
+			<< _precio << endl;
+		return ss.str();
+	}
+
 	static Curso<T> cargarDesdeLineaCu(const string& linea) {
 		string codigoS, nombre, certificadoS, categoria, duracion, precioS;
 		stringstream ss(linea);

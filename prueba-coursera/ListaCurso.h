@@ -51,6 +51,15 @@ public:
         }
     }
 
+    bool existeCorreo(const string& correo) const {
+        for (const auto& elemento : valor) {
+            if (elemento.getCliente().get_correo() == correo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void guardarArchivo(ofstream& archivo) const {
         for (const auto& curso : cursos) {
             curso.guardarArchivo(archivo);
