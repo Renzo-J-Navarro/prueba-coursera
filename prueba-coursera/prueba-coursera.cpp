@@ -76,7 +76,7 @@ static void compilaUsuario() {
             listaUsuario.agregar(nuevoUsuario);
             
 			// Se guarda directamente en el archivo
-            ofstream archivo("usuario.txt", ios::app);
+            ofstream archivo("usuarios.txt", ios::app);
             if (archivo.is_open()) {
 				archivo << nuevoUsuario.serializarUsuario() << endl;
 				archivo.close();
@@ -140,7 +140,6 @@ static void compilaUsuario() {
                     cout << "\nUsuario eliminado y archivo actualizado.\n";
                 }
             }
-            
         }
         else if (opcionUsuario == 6) {
 			cout << "\n\t\tSaliendo del programa.....\n";

@@ -20,7 +20,7 @@ public:
 
     void mostrar() const {
         for (const auto& elemento : valor) {
-            elemento.mostrar(); 
+            elemento.mostrarUsuario(); 
         }
     }
 
@@ -57,7 +57,7 @@ public:
         return false;
     }
 
-    void guardarArchivo(ofstream& archivo, ios::app) const {
+    void guardarArchivo(ofstream& archivo) const {
         for (const auto& elemento : valor) {
             archivo << elemento.serializarUsuario() << endl;
         }
