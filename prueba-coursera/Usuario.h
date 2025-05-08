@@ -12,7 +12,6 @@ private:
 public:
     Usuario(const Cliente<T>& cliente, bool premium = false)
         : _cliente(cliente), _premium(premium) {
-        guardad
     }
 
     //getters
@@ -50,12 +49,4 @@ public:
         _cliente.mostrarCliente();
 		cout << "Premium: " << (_premium ? "Si" : "No") << endl;
     }
-    void guardarAutomaticamente() const {
-        ofstream archivo("usuarios.txt", ios::app);
-        if (archivo.is_open()) {
-            archivo << serializarUsuario() << endl;
-            archivo.close();
-        }
-    }
-
 };

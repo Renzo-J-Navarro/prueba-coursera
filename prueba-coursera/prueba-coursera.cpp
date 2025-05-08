@@ -96,7 +96,7 @@ static void compilaUsuario() {
         else if (opcionUsuario == 3) {
             system("cls");
             cout << "\n\t--- Usuarios Premium ---\n";
-            listaUsuario.ordenar();  // Ordena por Premium
+            listaUsuario.ordenarPremium();  // Ordena por Premium
             listaUsuario.mostrar();
         }
         else if (opcionUsuario == 4) {
@@ -150,7 +150,7 @@ static void compilaUsuario() {
 			cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
         }
 
-	} while(opcionUsuario != 7);
+	} while(opcionUsuario != 6);
 };
 
 static void compilaCurso() {
