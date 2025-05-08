@@ -1,8 +1,8 @@
-101,Programación en C++,1,Programacion,5 modulos de 30h,34.99
+101,Programacion en C++,1,Programacion,5 modulos de 30h,34.99
 102,Fundamentos de Contabilidad,0,Finanzas,3 modulos de 25h,19.99
 103,Excel Intermedio,0,Informatica,8 modulos de 30h,14.99
 104,Fundamentos de Python,0,Programacion,8 modulos de 35h,34.99
 105,Marketing Digital,1,Negocios,6 modulos de 20h,19.99
 106,Excel Avanzado,0,Informatica,5 modulos de 28h,24.99
-107,Diseño UX/UI,1,Diseño,7 modulos de 18h,42.99
+107,Diseno UX/UI,1,Diseno,7 modulos de 18h,42.99
 108,Analisis de datos con Python,1,Programacion,6 modulos de 30h,42.99

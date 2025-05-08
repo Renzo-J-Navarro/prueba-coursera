@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
+#include <sstream>	
 
 using namespace std;
 
@@ -38,29 +39,17 @@ public:
 	//metodos
 	void mostrarCurso() const {
 		// codigo, nombre, certificado, categoria, duracion, precio 
-		cout << "[" << _codigoCurso << "] " 
-			<< _nombreCurso 
-			<< "\nCertificado: " << (_certificado ? "Si" : "No") 
-			<< "\n" << _categoria << " - " 
-			<< _duracion << " - $" 
-			<< _precio << endl;
+		cout << "[" << _codigoCurso << "] " << _nombreCurso << " | Certificado: " << (_certificado ? "Pendiente" : "No") 
+			<< " | " << _categoria << " | " << _duracion << " | $" << _precio << endl;
 	}
 	void guardarArchivo(ofstream& archivo) const {
-		archivo << _codigoCurso << ","
-			<< _nombreCurso << ","
-			<< _certificado << ","
-			<< _categoria << ","
-			<< _duracion << ","
-			<< _precio << endl;
+		archivo << _codigoCurso << "," << _nombreCurso << "," << _certificado << "," << _categoria << ","
+			<< _duracion << "," << _precio << endl;
 	}
 
 	string serializarCurso() const {
 		stringstream ss;
-		ss << _codigoCurso << ","
-			<< _nombreCurso << ","
-			<< _certificado << ","
-			<< _categoria << ","
-			<< _duracion << ","
+		ss << _codigoCurso << "," << _nombreCurso << "," << _certificado << "," << _categoria << "," << _duracion << ","
 			<< _precio << endl;
 		return ss.str();
 	}

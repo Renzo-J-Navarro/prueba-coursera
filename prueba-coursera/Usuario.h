@@ -47,6 +47,6 @@ public:
     void mostrarUsuario() const {
         cout << "\nID del Usuario: " << _cliente.get_correo() << endl;
         _cliente.mostrarCliente();
-		cout << "Premium: " << (_premium ? "Si" : "No") << endl;
+		cout << "Premium: " << (_premium ? "Pendiente" : "No Tiene") << endl;
     }
 };

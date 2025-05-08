@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -13,22 +14,26 @@ class ListaCurso {
 private:
     vector<T> cursos;
 public:
+	// agregar cursos
     void agregar(const T& curso) {
         cursos.push_back(curso);
     }
 
+	// mostrar cursos
     void mostrar() const {
         for (const auto& curso : cursos) {
             curso.mostrarCurso();
         }
     }
 
+	// ordenar cursos por precio
     void ordenarPorPrecio() {
         sort(cursos.begin(), cursos.end(), [](const T& a, const T& b) {
             return a.get_Precio() < b.get_Precio();
             });
     }
 
+	// buscar curso por categoria con impresión
     void buscarPorCategoria(const string& cat) const {
         stack<T> pila;
         for (const auto& curso : cursos) {
@@ -40,6 +45,7 @@ public:
         }
     }
 
+	// buscar curso por precio con impresión
     void buscarPorPrecio(double maxPrecio) const {
         queue<T> cola;
         for (const auto& curso : cursos) {
@@ -51,32 +57,42 @@ public:
         }
     }
 
-    bool existeCorreo(const string& correo) const {
-        for (const auto& elemento : valor) {
-            if (elemento.getCliente().get_correo() == correo) {
-                return true;
+    // buscar curso por código con impresión
+    void buscarYMostrarPorCodigo(int codigoBuscado) const {
+        bool encontrado = false;
+        for (const auto& curso : cursos) {
+            if (curso.get_CodigoCurso() == codigoBuscado) {
+                cout << "\nCurso encontrado:\n";
+                curso.mostrarCurso();
+                encontrado = true;
+                break;
             }
         }
-        return false;
+
+        if (!encontrado) {
+            cout << "\nCurso con código " << codigoBuscado << " no encontrado.\n";
+        }
     }
 
+    // Devuelve puntero al curso si existe, para selección o edición
+    T* existeCodigo(int codigo) {
+        for (auto& curso : cursos) {
+            if (curso.get_CodigoCurso() == codigo) {
+                return &curso;
+            }
+        }
+        return nullptr;
+    }
+
+	// Cargar cursos desde archivo
     void guardarArchivo(ofstream& archivo) const {
         for (const auto& curso : cursos) {
             curso.guardarArchivo(archivo);
         }
     }
 
-    void cargarDesdeArchivo(const string& nombreArchivo) {
-        ifstream archivo(nombreArchivo);
-        if (!archivo.is_open()) {
-            cout << "Error al abrir archivo.\n";
-            return;
-        }
-
-        string linea;
-        while (getline(archivo, linea)) {
-            cursos.push_back(T::cargarDesdeLineaCu(linea));
-        }
-        archivo.close();
+    // Extra: obtener lista de cursos por referencia para boleta
+    const vector<T>& obtenerCursos() const {
+        return cursos;
     }
 };

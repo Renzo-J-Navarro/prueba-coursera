@@ -173,13 +173,15 @@ static void compilaCurso() {
             bool certificado = false;
             double precio;
 
-			cout << "\nCodigo Curso: "; cin >> codigo; cin.ignore();
+			cout << "\nCodigo Curso: "; cin >> codigo;
+            cin.ignore();
 			cout << "Nombre Curso: "; getline(cin, nombre);
-            cout << "Certificado? (s/n): "; cin >> certificadoChar; cin.ignore();
+            cout << "Certificado? (s/n): "; cin >> certificadoChar;
+            cin.ignore();
 			cout << "Categoria: "; getline(cin, categoria);
 			cout << "Duracion: "; getline(cin, duracion);
-			cout << "Precio: "; cin >> precio; cin.ignore();
-
+			cout << "Precio: "; cin >> precio;
+            cin.ignore();
 
 			if (certificadoChar == 's' || certificadoChar == 'S') { certificado = true; }
             Curso<string> nuevoCurso(codigo, nombre, certificado, categoria, duracion, precio);
@@ -199,7 +201,7 @@ static void compilaCurso() {
         }
         else if (opcionCurso == 2) { // mostrar todos los cursos
             system("cls");
-            cout << "\n\t--- Lista de Usuarios ---\n";
+            cout << "\n\t--- Lista de Cursos ---\n";
             listaCurso.mostrar();
         }
         else if (opcionCurso == 3) { // ordenar por precio
@@ -219,7 +221,12 @@ static void compilaCurso() {
             system("cls");
 			double precioMax;
             cout << "\nIngrese el precio maximo: ";
-			cin >> precioMax; cin.ignore();
+            while (!(cin>> precioMax)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "\n\tEntrada invalida. Ingrese un precio numerico... \n";
+            }
+            cin.ignore();
 			listaCurso.buscarPorPrecio(precioMax);
         }
         else if (opcionCurso == 6) { // cargar cursos desde archivo
@@ -228,17 +235,6 @@ static void compilaCurso() {
             if(archivo.is_open()) {
                 string linea;
                 int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
-            }
-            if (archivo.is_open()) {
-                string linea;
-                    if (!listaUsuario.existeCorreo(correo)) {
-                        listaUsuario.agregar(usuario);
-                        cargados++;
-                    }
-                    else {
-                        duplicados++;
-                    }
-
                 while (getline(archivo, linea)) {
                     Curso<string> curso = Curso<string>::cargarDesdeLineaCu(linea);
 					string codigoS = to_string(curso.get_CodigoCurso());
@@ -246,9 +242,12 @@ static void compilaCurso() {
                         listaCurso.agregar(curso);
                         cargados++;
                     }
+                    else {
+						duplicados++;
+                    }
                 }
                 archivo.close();
-                cout << "\n\tCursos cargados del archivo: " << cargadados << endl;
+                cout << "\n\tCursos cargados del archivo: " << cargados << endl;
                 if (duplicados > 0) {
                     cout << "\n\tCursos duplicados no cargados: " << duplicados << endl;
                 }
@@ -265,13 +264,12 @@ static void compilaCurso() {
         {
             cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
         }
-
     } while (opcionCurso != 7);
 }
 
 int main() {
 
-    compilaUsuario();
+    //compilaUsuario();
     compilaCurso();
     system("pause");
     return 0;
