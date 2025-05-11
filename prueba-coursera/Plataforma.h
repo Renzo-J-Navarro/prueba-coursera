@@ -186,6 +186,7 @@ public:
                 cin.ignore();
                 // menu de Cursos
                 if (opcionUsuario == 1) {
+                    system("cls");
                     do
                     {
                         menuCurso();
@@ -204,7 +205,8 @@ public:
                         // listar cursos por precio
                         else if (opcionCurso == 2) {
                             system("cls");
-                            gestorPago();
+                            cout << "\n\t--- Lista de todos los Cursos ---\n";
+                            listaCurso.ordenarPorPrecio();
                         }
                         // buscar cursos por categoria
                         else if (opcionCurso == 3) {
@@ -229,6 +231,8 @@ public:
                         }
                         // realizar compra de cursos
                         else if (opcionCurso == 5) {
+                            system("cls");
+                            cout << "\n\t--- Comprar Cursos ---\n";
                             gestorPago();
                         }
                         // salir del menu cursos
@@ -244,14 +248,20 @@ public:
                 else if (opcionUsuario == 2) {
                     system("cls");
                     cout << "\n\t--- Comprar Cursos ---\n";
-                    listaCurso.mostrar();
-                    // Aquí se puede agregar la lógica para comprar cursos
+                    gestorPago();
                 }
                 // listado de premium
                 else if (opcionUsuario == 3) {
 					system("cls");
 					cout << "\n\t--- Estado Premium ---\n";
-					// Aquí se puede agregar la lógica para ver el estado premium
+                    if (actualUser->get_Premium()) {
+                        cout << "\nTu cuenta es Premium.\n";
+                        cout << "Gracias por ser premium tus beneficios estaran activos hasta que decidas cancelar.\n";
+                    }
+                    else {
+                        cout << "\nActualmente no tienes una cuenta Premium.\n";
+                        cout << "Considera activar Premium desde el menú de pagos para obtener todos los beneficios de Coursera.\n";
+                    }
 				}
                 // eliminar correo del usuario
 				else if (opcionUsuario == 4) {
@@ -305,6 +315,7 @@ public:
                 listaCurso.mostrar();
 
                 string seleccionCursos;
+                string metodoPago;
                 int cantidad;
                 float precioUnitario;
 
@@ -321,7 +332,6 @@ public:
                 cin >> precioUnitario;
                 cin.ignore();
 
-                string metodoPago;
                 cout << "\n\t--- Seleccione el método de pago ---\n";
                 cout << "1. Tarjeta Debito." <<endl;
                 cout << "2. Tarjeta Credito." <<endl;
@@ -360,7 +370,7 @@ public:
                 Boleta boletaCurso("Coursera", numOperacion, fecha, hora, metodoPago, correo,
                     nombreCliente, cantidad, seleccionCursos, precioUnitario);
 
-                // generacion y impresion de boleta
+                // Guardar Boleta
                 boletaCurso.mostrarBoletaCurso();
                 string ruta = "boleta/cursos/" + boletaCurso.generarNombreArchivo();
                 boletaCurso.guardarBoletaEnArchivo(ruta, false);
@@ -370,8 +380,6 @@ public:
                 // Registro del pagos
                 Pago<string> pagoCurso(metodoPago, actualUser->getCliente(), seleccionCursos, cantidad * precioUnitario);
                 pagoCurso.guardarEnArchivo("Pagos/pagos.txt");
-
-                
             }
             // Activar premium si es que en el registro dijo que si
             else if (opcionPago == 2) {
@@ -439,17 +447,25 @@ public:
             else if (opcionPago == 3) {
                 system("cls");
                 string nombre = actualUser->getCliente().get_nombreCompleto();
-                string archivo = "boletas/boleta_" + nombre + ".txt";
-                ifstream file(archivo);
-                if (file.is_open()) {
-                    cout << "\n--- Boleta del usuario ---\n";
-                    string linea;
-                    while (getline(file, linea)) {
-                        cout << linea << endl;
+                vector<string> posiblesRutas = {
+                    "boleta/cursos/boletas/boleta_" + nombre + ".txt", 
+                    "boleta/premium/boletas/boleta_" + nombre + ".txt"
+                };
+                bool encontrada = false;
+                for (const auto& ruta : posiblesRutas) {
+                    ifstream file(ruta);
+                    if (file.is_open()) {
+                        cout << "\n--- Boleta del usuario ---\n";
+                        string linea;
+                        while (getline(file, linea)) {
+                            cout << linea << endl;
+                        }
+                        file.close();
+                        encontrada = true;
+                        break;
                     }
-                    file.close();
                 }
-                else {
+                if (!encontrada) {
                     cout << "\nNo hay boleta registrada para este usuario.\n";
                 }
             }

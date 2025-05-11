@@ -1,0 +1,26 @@
+
+				 COURSERA APRENDIZAJE PARA TODOS  
+-----------------------------------------------------
+					BOLETA ELECTRONICA
+-----------------------------------------------------
+
+ID TRANSACCION:      	B005-19412
+Fecha de Emision:    	2025-07-26		Hora: 	02:10
+Nombre Titular:      	Juanito Alcachofa
+Metodo de Pago:      	Otro
+Correo Electronico:  	cienteJuani@gmail
+------------------------------------------------------
+					ACTIVACION PREMIUM
+------------------------------------------------------
+	DETALLES DE LA COMPRA	
+	Cantidad 				 Precio 			 Subtotal		
+
+	2			 $14.99			 $29.98	
+------------------------------------------------------
+		RESUMEN DE PAGO	
+Subtotal:    	29.98
+Descuentos:  	0.00
+IGV (18%):   	5.40
+Monto Total: 	35.38
+
+*********************************************************

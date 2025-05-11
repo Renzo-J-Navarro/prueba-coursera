@@ -31,6 +31,11 @@ public:
         sort(cursos.begin(), cursos.end(), [](const T& a, const T& b) {
             return a.get_Precio() < b.get_Precio();
             });
+
+        // Mostrar los cursos ordenados
+        for (const auto& curso : cursos) {
+            curso.mostrarCurso();
+        }
     }
 
 	// buscar curso por categoria con impresión
