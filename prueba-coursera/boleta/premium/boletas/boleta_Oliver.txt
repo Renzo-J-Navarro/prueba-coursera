@@ -1,0 +1,30 @@
+
+				 COURSERA APRENDIZAJE PARA TODOS  
+				-----------------------------------------------------
+					BOLETA ELECTRONICA
+				-----------------------------------------------------
+
+				ID TRANSACCION:      	B005-7335
+				Fecha de Emision:    	2025-02-28		Hora: 	15:47
+				Nombre Titular:      	Oliver
+				Metodo de Pago:      	Tarjeta Credito
+				Correo Electronico:  	oliva@gmail
+
+				------------------------------------------------------
+					CURSOS ADQUIRIDOS
+				------------------------------------------------------
+- Premium mensual
+				------------------------------------------------------
+					DETALLES DE LA COMPRA	
+				------------------------------------------------------
+					Cantidad 				 Precio 			 Subtotal		
+
+					1			 $40.00			 $40.00	
+				------------------------------------------------------
+						RESUMEN DE PAGO	
+				Subtotal:    	40.00
+				Descuentos:  	0.00
+				IGV (18%):   	7.20
+				Monto Total: 	47.20
+
+*********************************************************

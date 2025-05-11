@@ -8,6 +8,142 @@
 #include <conio.h>
 
 using namespace std;
+using namespace System;
+
+const int FILAS = 25;
+const int COLUMNAS = 60;
+
+void posicion(int x, int y) { Console::SetCursorPosition(x, y); }
+
+void colores(int c) {
+    switch (c)
+    {
+    case 1: Console::ForegroundColor = ConsoleColor::Black; break;
+    case 2: Console::ForegroundColor = ConsoleColor::Blue; break;
+    case 3: Console::ForegroundColor = ConsoleColor::Cyan; break;
+    case 4: Console::ForegroundColor = ConsoleColor::DarkBlue; break;
+    case 5: Console::ForegroundColor = ConsoleColor::DarkCyan; break;
+    case 6: Console::ForegroundColor = ConsoleColor::DarkGray; break;
+    case 7: Console::ForegroundColor = ConsoleColor::DarkGreen; break;
+    case 8: Console::ForegroundColor = ConsoleColor::DarkMagenta; break;
+    case 9: Console::ForegroundColor = ConsoleColor::DarkRed; break;
+    case 10: Console::ForegroundColor = ConsoleColor::DarkYellow; break;
+    case 11: Console::ForegroundColor = ConsoleColor::Gray; break;
+    case 12: Console::ForegroundColor = ConsoleColor::Green; break;
+    case 13: Console::ForegroundColor = ConsoleColor::Magenta; break;
+    case 14: Console::ForegroundColor = ConsoleColor::Red; break;
+    case 15: Console::ForegroundColor = ConsoleColor::White; break;
+    case 16: Console::ForegroundColor = ConsoleColor::Yellow; break;
+    }
+}
+
+int matrizInicio[FILAS][COLUMNAS] = {
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,0,0},
+{0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0},
+{0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,1,0,0,1,1,1,0,1,1,1,0,0,0},
+{0,0,0,0,2,2,2,0,0,0,0,2,2,2,0,0,0,2,2,2,2,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0},
+{0,0,0,0,2,2,0,0,0,0,2,2,2,2,2,0,0,2,2,2,2,0,0,0,0,0,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,0,1,0,0,0},
+{0,0,0,2,2,2,0,0,0,2,2,2,2,2,2,2,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,2,2,2,2,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,2,2,2,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,2,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,2,2,2,0,0,0,0,2,2,2,2,2,2,2,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,2,2,2,0,0,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,2,2,2,2,0,0,0,0,2,2,2,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+};
+
+void matriz_presentacion(int mapaPantalla[FILAS][COLUMNAS], int offsetY = 2) {
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            posicion(c, f + offsetY); // Offset vertical
+            if (mapaPantalla[f][c] == 0) colores(15);
+            else if (mapaPantalla[f][c] == 1) colores(14);
+            else if (mapaPantalla[f][c] == 2) colores(2);
+
+            cout << char(219);
+        }
+    }
+}
+
+void mostrarSelección(int seleccion) {
+    string opcionesSeleccion[2] = { "CERRAR APLICACION", "EMPIEZA UN CURSO" };
+
+    for (int i = 0; i < 2; i++) {
+        posicion(65, FILAS - 10 - i);
+        if (i == seleccion) {
+            colores(16);
+            cout << "    " << opcionesSeleccion[i];
+        }
+        else {
+            colores(12);
+            cout << ">>> " << opcionesSeleccion[i] << " <<<";
+        }
+    }
+}
+
+void mostrarMenuInicial() {
+    int seleccion = 0;
+    int tecla;
+
+    do {
+
+
+        matriz_presentacion(matrizInicio, 2); // Mostrar matriz debajo
+
+        colores(15);
+        posicion(69, FILAS - 13);
+        cout << "Seleccione una opcion:";
+
+        mostrarSelección(seleccion);
+
+        tecla = _getch();
+        if (tecla == 72) {
+            seleccion--;
+            if (seleccion < 0) seleccion = 1;
+            system("cls");
+        }
+        else if (tecla == 80) {
+            seleccion++;
+            if (seleccion > 1) seleccion = 0;
+            system("cls");
+        }
+
+    } while (tecla != 13); // Enter
+
+    if (seleccion == 0) {
+        // Aquí puedes añadir lógica para iniciar curso
+    }
+    else {
+        exit(0);
+    }
+}
+
+void matriz_presentacion(int mapaPantalla[FILAS][COLUMNAS]) {
+    for (int f = 0; f < FILAS; f++) {
+        for (int c = 0; c < COLUMNAS; c++) {
+            posicion(c, f);
+            if (mapaPantalla[f][c] == 0) { colores(15); }
+            if (mapaPantalla[f][c] == 1) { colores(14); }
+            if (mapaPantalla[f][c] == 2) { colores(2); }
+
+            cout << char(219);
+        }
+        cout << endl;
+    }
+}
 
 static void adminMenuCurso() {
     cout << "\n--- MENU CURSOS ---\n";
@@ -262,6 +398,10 @@ static void admincompilaCurso() {
 
 int main() {
     srand(time(0));
+
+    Console::SetWindowSize(80, 40);
+    mostrarMenuInicial();
+    system("cls");
     Plataforma<string> listaPlataforma;
     int opcion;
     listaPlataforma.cargarDatos();

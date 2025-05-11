@@ -28,7 +28,7 @@ public:
             << _cliente.get_correo() << ","
             << _cliente.get_contraseña() << ","
             << _cliente.get_telefono() << ","
-            << (_premium ? "1" : "0") << endl;
+            << (_premium ? "1" : "0");
         return ss.str();
     }
 
