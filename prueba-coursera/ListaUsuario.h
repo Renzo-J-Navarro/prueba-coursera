@@ -48,6 +48,15 @@ public:
         }
     }
 
+    T* obtenerUsuarioPorCorreo(const string& correo) {
+        for (auto& elemento : valor) {
+            if (elemento.getCliente().get_correo() == correo) {
+                return &elemento;
+            }
+        }
+        return nullptr;
+    }
+
     bool existeCorreo(const string& correo) const {
         for (const auto& elemento : valor) {
             if (elemento.getCliente().get_correo() == correo) {

@@ -262,10 +262,16 @@ static void admincompilaCurso() {
 
 int main() {
 
-    //compilaUsuario();
-    //compilaCurso();
+    // Generar fecha y hora actual
+    time_t now = time(0);
+    tm* ltm = localtime(&now);
+    char fecha[11], hora[9];
+    strftime(fecha, sizeof(fecha), "%Y-%m-%d", ltm);
+    strftime(hora, sizeof(hora), "%H:%M:%S", ltm);
+
     Plataforma<string> listaPlataforma;
     int opcion;
+    listaPlataforma.cargarDatos();
     do
     {
         menuPlataforma();
@@ -277,21 +283,20 @@ int main() {
         cin.ignore();
 
         if (opcion == 1) {
+            system("cls");
             listaPlataforma.crearUsuario();
         }
         else if (opcion == 2) {
+            system("cls");
             listaPlataforma.ingresarUsuario();
         }
         else if (opcion == 3) {
-            cout << "Falta implementar boleta de pago" << endl;
-        }
-        else if (opcion == 4) {
             cout << "\n\t\tSaliendo del programa.....\n";
         }
         else {
             cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
         }
-    } while (opcion != 4);
+    } while (opcion != 3);
 
 
     system("pause");

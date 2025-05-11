@@ -1,5 +1,6 @@
 #pragma once
 #include "Cliente.h"
+#include "Curso.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,10 +16,10 @@ public:
     }
 
     //getters
-    Cliente<T> getCliente() const { return _cliente; }
+    const Cliente<T>& getCliente() const { return _cliente; }
     bool get_Premium() const { return _premium; }
     //setters
-	void set_premiun(bool premium) { _premium = premium; }
+	void set_Premiun(bool premium) { _premium = premium; }
     //metodos
     string serializarUsuario() const {
         stringstream ss;
@@ -48,5 +49,8 @@ public:
         cout << "\nID del Usuario: " << _cliente.get_correo() << endl;
         _cliente.mostrarCliente();
 		cout << "Premium: " << (_premium ? "Pendiente" : "No Tiene") << endl;
+    }
+    void agregarCursoCompletado(const Curso<T>& curso) {
+        _cursosCompletados.push_back(curso);
     }
 };

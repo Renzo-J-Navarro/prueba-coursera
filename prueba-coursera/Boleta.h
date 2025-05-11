@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <filesystem>
 
 using namespace std;
+namespace fs = filesystem;
 
 class Boleta {
 private:
@@ -24,7 +26,7 @@ private:
 
 public:
     Boleta(string empresa = "Coursera", string numOperacion = "N/A", string fecha = "N/A", string hora = "N/A",
-        string metodoPago = "N/A", string correo = "N/A", string nombreCliente = "N/A", int cantidad = 0,
+        string metodoPago = "Visa", string correo = "N/A", string nombreCliente = "N/A", int cantidad = 0,
         string cursos = "N/A", float precioUnitario = 0.0, float subtotal = 0.0, double descuento = 0.0,
         double montoigv = 0.0, double montoTotal = 0.0)
         : _empresa(empresa), _numOperacion(numOperacion), _fecha(fecha), _hora(hora), _metodoPago(metodoPago), 
@@ -57,9 +59,9 @@ public:
         _montoTotal = _subtotal + _montoIGV - _descuento;
     }
 
-    void mostrarBoleta() {
-        // lambdas para imprimir el flujo
-        auto boleta = [&](ostream& texto) {
+    void mostrarBoletaCurso(ostream& texto = cout) {
+        // lambdas para imprimir boleta de curso
+        auto boletaCurso = [&](ostream& texto) {
 
             texto << fixed << setprecision(2); // formatea montos a 2 decimales
             texto << endl;
@@ -92,10 +94,67 @@ public:
             texto << endl;
             texto << "*********************************************************\n";
             };
+
+        boletaCurso(texto);
+    }
+
+    void mostrarBoletaPremium(ostream& texto = cout) {
+        // lambdas para imprimir boleta de premium
+        auto boletaPremium = [&](ostream& texto) {
+            texto << fixed << setprecision(2); // formatea montos a 2 decimales
+            texto << endl;
+            texto << "\t\t\t\t COURSERA APRENDIZAJE PARA TODOS  \n";
+            texto << "-----------------------------------------------------\n";
+            texto << "\t\t\t\t\tBOLETA ELECTRONICA\n";
+            texto << "-----------------------------------------------------\n";
+            texto << endl;
+            texto << "ID TRANSACCION:      \t" << _numOperacion << endl;
+            texto << "Fecha de Emision:    \t" << _fecha << "\t\tHora: \t" << _hora << endl;
+            texto << "Nombre Titular:      \t" << _nombreCliente << endl;
+            texto << "Metodo de Pago:      \t" << _metodoPago << endl;
+            texto << "Correo Electronico:  \t" << _correo << endl;
+            texto << "------------------------------------------------------\n";
+            texto << "\t\t\t\t\tACTIVACION PREMIUM\n";
+            texto << "------------------------------------------------------\n";
+            texto << "\tDETALLES DE LA COMPRA\t\n";
+            texto << "\tCantidad \t\t\t\t Precio \t\t\t Subtotal\t\t\n";
+            texto << endl;
+            texto << "\t" << _cantidad << "\t\t\t $" << _precioUnitario << "\t\t\t $" << _subtotal << "\t\n";
+            texto << "------------------------------------------------------\n";
+            texto << "\t\tRESUMEN DE PAGO\t\n";
+            texto << "Subtotal:    \t" << _subtotal << endl;
+            texto << "Descuentos:  \t" << _descuento << endl;
+            texto << "IGV (18%):   \t" << _montoIGV << endl;
+            texto << "Monto Total: \t" << _montoTotal << endl;;
+            texto << endl;
+            texto << "*********************************************************\n";
+            };
+
+        boletaPremium(texto);
+    }
+
+    void guardarBoletaEnArchivo(const string& ruta) {  
+       fs::path path(ruta); // Usar el alias para experimental::filesystem  
+       fs::create_directories(path.parent_path()); // Crea carpeta si no existe  
+
+       ofstream archivo(ruta);  
+       if (archivo.is_open()) {  
+           mostrarBoletaCurso(archivo);  
+           archivo.close();  
+           cout << " Boleta guardada en " << ruta << endl;  
+       }  
+       else {  
+           cout << " Error al guardar la boleta." << endl;  
+       }  
     }
 
     void enviarBoleta() {
         cout << "Boleta enviada al correo: " << _correo << endl;
+    }
+
+
+    string generarNombreArchivo() {
+        return "boletas/boleta_" + _nombreCliente + "_" + _numOperacion + ".txt";
     }
 
 private:
