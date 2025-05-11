@@ -36,9 +36,6 @@
     <ClInclude Include="ListaCurso.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Venta.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Boleta.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>

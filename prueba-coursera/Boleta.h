@@ -26,7 +26,7 @@ private:
 
 public:
     Boleta(string empresa = "Coursera", string numOperacion = "N/A", string fecha = "N/A", string hora = "N/A",
-        string metodoPago = "Visa", string correo = "N/A", string nombreCliente = "N/A", int cantidad = 0,
+        string metodoPago = "N/A", string correo = "N/A", string nombreCliente = "N/A", int cantidad = 0,
         string cursos = "N/A", float precioUnitario = 0.0, float subtotal = 0.0, double descuento = 0.0,
         double montoigv = 0.0, double montoTotal = 0.0)
         : _empresa(empresa), _numOperacion(numOperacion), _fecha(fecha), _hora(hora), _metodoPago(metodoPago), 
@@ -39,6 +39,9 @@ public:
 	double getMontoTotal() const { return _montoTotal; }
 	double getMontoIGV() const { return _montoIGV; }
 	double getDescuento() const { return _descuento; }
+
+    //setters
+    void setMontoTotal(double montoTotal) { _montoTotal = montoTotal; }
 
     // Metodos
     void generarBoleta() {
@@ -59,7 +62,7 @@ public:
         _montoTotal = _subtotal + _montoIGV - _descuento;
     }
 
-    void mostrarBoletaCurso(ostream& texto = cout) {
+    void mostrarBoletaCurso(ostream& texto = cout) const {
         // lambdas para imprimir boleta de curso
         auto boletaCurso = [&](ostream& texto) {
 
@@ -79,7 +82,7 @@ public:
             texto << "------------------------------------------------------\n";
             texto << "\t\t\t\t\tCURSOS ADQUIRIDOS\n";
             texto << "------------------------------------------------------\n";
-            mostrarCursosRecursivo(_cursos, 0);
+            mostrarCursosRecursivo(_cursos, 0, texto);
             texto << "------------------------------------------------------\n";
             texto << "\tDETALLES DE LA COMPRA\t\n";
             texto << "\tCantidad \t\t\t\t Precio \t\t\t Subtotal\t\t\n";
@@ -98,7 +101,7 @@ public:
         boletaCurso(texto);
     }
 
-    void mostrarBoletaPremium(ostream& texto = cout) {
+    void mostrarBoletaPremium(ostream& texto = cout) const {
         // lambdas para imprimir boleta de premium
         auto boletaPremium = [&](ostream& texto) {
             texto << fixed << setprecision(2); // formatea montos a 2 decimales
@@ -133,13 +136,20 @@ public:
         boletaPremium(texto);
     }
 
-    void guardarBoletaEnArchivo(const string& ruta) {  
+    void guardarBoletaEnArchivo(const string& ruta, bool esPremium = false ) const {  
        fs::path path(ruta); // Usar el alias para experimental::filesystem  
        fs::create_directories(path.parent_path()); // Crea carpeta si no existe  
 
        ofstream archivo(ruta);  
        if (archivo.is_open()) {  
-           mostrarBoletaCurso(archivo);  
+           if (esPremium)
+           {
+               mostrarBoletaCurso(archivo);
+           }
+           else
+           {
+               mostrarBoletaPremium(archivo);
+           }
            archivo.close();  
            cout << " Boleta guardada en " << ruta << endl;  
        }  
@@ -148,27 +158,29 @@ public:
        }  
     }
 
-    void enviarBoleta() {
-        cout << "Boleta enviada al correo: " << _correo << endl;
+    void enviarBoleta(const string& correo) {
+        cout << "Boleta enviada al correo: " << correo << endl;
     }
 
-
-    string generarNombreArchivo() {
-        return "boletas/boleta_" + _nombreCliente + "_" + _numOperacion + ".txt";
+    string generarNombreArchivo() const {
+        string nombreArchivo = _nombreCliente;
+        replace(nombreArchivo.begin(), nombreArchivo.end(), ' ', '_');
+        string archivo = "boletas/boleta_" + nombreArchivo + ".txt";
+        return "boletas/boleta_" + nombreArchivo + ".txt";
     }
 
 private:
     // Recursividad para mostrar cursos separados por comas
-    void mostrarCursosRecursivo(const string& lista, size_t index) {
+    void mostrarCursosRecursivo(const string& lista, size_t index, ostream& texto) const {
         if (index >= lista.length()) return;
 
         size_t coma = lista.find(',', index);
         if (coma == string::npos) {
-            cout << "- " << lista.substr(index) << endl;
+            texto << "- " << lista.substr(index) << "\n";
         }
         else {
-            cout << "- " << lista.substr(index, coma - index) << endl;
-            mostrarCursosRecursivo(lista, coma + 1);
+            texto << "- " << lista.substr(index, coma - index) << "\n";
+            mostrarCursosRecursivo(lista, coma + 1, texto);
         }
     }
 };

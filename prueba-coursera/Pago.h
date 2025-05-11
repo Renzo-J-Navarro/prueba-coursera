@@ -12,31 +12,49 @@ template <typename T>
 class Pago {
 private:
 	T _metodoPago;
-	Cliente<T> pCliente;
-	Curso<T> pCurso;
-public:
-	Pago(const T& metodoPago = "N/A", const Cliente<T>& cliente, const Curso<T>& curso)
-		: _metodoPago(metodoPago), pCliente(cliente), pCurso(curso) {}
+	Cliente<string> pcliente;
+	string _detallePago;
+	float _monto;
 
-	//getters
+public:
+	// Constructor por defecto
+	Pago(const T& metodoPago = "N/A")
+		: _metodoPago(metodoPago), _detallePago(""), _monto(0.0) {
+	}
+
+	// Constructor con datos completos
+	Pago(const T& metodoPago, const Cliente<string>& cliente, const string& detallePago, float monto)
+		: _metodoPago(metodoPago), pcliente(cliente), _detallePago(detallePago), _monto(monto) {
+	}
+
+	// Getters
 	T get_MetodoPago() const { return _metodoPago; }
-	//setters
+	string get_DetallePago() const { return _detallePago; }
+	float get_Monto() const { return _monto; }
+	Cliente<string> getpcliente() const { return pcliente; }
+
+	// Setters
 	void set_MetodoPago(const T& metodoPago) { _metodoPago = metodoPago; }
-	//metodos
+	void set_DetallePago(const string& detalle) { _detallePago = detalle; }
+	void set_Monto(float monto) { _monto = monto; }
+
+	// Serializar pago como string
 	string SerializarPago() const {
 		stringstream ss;
-		ss << pCliente.get_correo() << "," << pCurso.get_CodigoCurso() << "," << pCurso.get_NombreCurso() << ","
-			<< pCurso.get_Certificado() << "," << pCurso.get_Categoria << "," << pCurso.get_Duracion() << ","
-			<< pCurso.get_Precio() << "," << _metodoPago;
+		ss << "Cliente: " << pcliente.get_nombreCompleto() << ", "
+			<< "Correo: " << pcliente.get_correo() << ", "
+			<< "Detalle: " << _detallePago << ", "
+			<< "Monto: $" << _monto << ", "
+			<< "Pago via: " << _metodoPago;
 		return ss.str();
 	}
 
-	void mostrarTipoPago() const {
-		cout << "\nUsuario: " << pCliente.get_correo()
-			<< pCurso.mostrarCurso()
-			<< "\n| Tipo Pago (): " << _metodoPago << endl;
+	// Guardar pago en archivo
+	void guardarEnArchivo(const string& ruta) const {
+		ofstream file(ruta, ios::app);
+		if (file.is_open()) {
+			file << SerializarPago() << endl;
+			file.close();
+		}
 	}
-
-
 };
-

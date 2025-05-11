@@ -261,14 +261,7 @@ static void admincompilaCurso() {
 }
 
 int main() {
-
-    // Generar fecha y hora actual
-    time_t now = time(0);
-    tm* ltm = localtime(&now);
-    char fecha[11], hora[9];
-    strftime(fecha, sizeof(fecha), "%Y-%m-%d", ltm);
-    strftime(hora, sizeof(hora), "%H:%M:%S", ltm);
-
+    srand(time(0));
     Plataforma<string> listaPlataforma;
     int opcion;
     listaPlataforma.cargarDatos();

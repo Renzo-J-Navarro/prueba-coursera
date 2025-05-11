@@ -101,7 +101,17 @@ public:
         }
     }
 
-    // Extra: obtener lista de cursos por referencia para boleta
+    // Buscar cursos por nombres
+    Curso<string>* buscarPorNombre(const string& nombreCurso) {
+        for (int i = 0; i < cursos.size(); ++i) {
+            if (cursos[i].get_NombreCurso() == nombreCurso) {
+                return &cursos[i];
+            }
+        }
+        return nullptr;
+    }
+
+    // obtener lista de cursos por referencia para boleta
     const vector<T>& obtenerCursos() const {
         return cursos;
     }

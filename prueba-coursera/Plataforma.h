@@ -10,10 +10,12 @@
 #include "Curso.h"
 #include "Usuario.h"
 #include "Boleta.h"
+#include "Pago.h"
 #include "ListaCurso.h"
 #include "ListaUsuario.h"
 using namespace std;
 namespace fs = filesystem;
+
 
 //Menu de acciones para el usuario
 static void menuCurso() {
@@ -22,7 +24,7 @@ static void menuCurso() {
     cout << "2. Listar cursos por su Precio" << endl;
     cout << "3. Buscar Cursos por Categoria" << endl;
     cout << "4. Buscar Cursos por Precio" << endl;
-    cout << "5. Realizar Compra." << endl;
+    cout << "5. Realizar Compra" << endl;
     cout << "6. Salir" << endl;
     cout << "Seleccione una opcion: ";
 }
@@ -89,7 +91,7 @@ public:
         listaUsuario.agregar(nuevoUsuario);
 
         // Se guarda directamente en el archivo
-        ofstream archivo("usuarios.txt", ios::app);
+        ofstream archivo("Usuario/usuarios.txt", ios::app);
         if (archivo.is_open()) {
             archivo << nuevoUsuario.serializarUsuario() << endl;
             archivo.close();
@@ -105,7 +107,7 @@ public:
 	// se cargaran los usuarios y cursos registrados en el archivo
     void cargarDatos() {
 		// Cargar usuarios desde archivo
-        ifstream archivoUsuario("usuarios.txt");
+        ifstream archivoUsuario("Usuario/usuarios.txt");
         if (archivoUsuario.is_open()) {
             string linea;
             int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
@@ -132,7 +134,7 @@ public:
         }
 
 		// Cargar cursos desde archivo
-        ifstream archivoCurso("cursos.txt");
+        ifstream archivoCurso("Curso/cursos.txt");
         if (archivoCurso.is_open()) {
             string linea;
             int cargados = 0, duplicados = 0; // registra cantidad de duplicados y usuarios para cargar
@@ -202,9 +204,7 @@ public:
                         // listar cursos por precio
                         else if (opcionCurso == 2) {
                             system("cls");
-                            cout << "\n\t--- Lista de Cursos por Precio ---\n";
-                            //listaCurso.buscarYOrdenarPorPrecio();
-                            listaCurso.mostrar();
+                            gestorPago();
                         }
                         // buscar cursos por categoria
                         else if (opcionCurso == 3) {
@@ -283,6 +283,11 @@ public:
 	}
     // completar pagos
     void gestorPago() {
+        // validar confirmacion de usuario
+        if (!actualUser) {
+            cout << "\nDebes iniciar sesión para realizar pagos.\n";
+            return;
+        }
         int opcionPago;
         do
         {
@@ -293,13 +298,79 @@ public:
                 cout << "\n\tEntrada invalida. Ingrese valores numericos !!! \n";
             }
             cin.ignore();
-            // validar confirmacion de usuario
-            if (!actualUser) {
-                cout << "\nDebes iniciar sesión para realizar pagos.\n";
-                return;
-            }
             // Comprar y pagar cursos
             if (opcionPago == 1) {
+                system("cls");
+                cout << "\n\t--- Comprar Cursos ---\n";
+                listaCurso.mostrar();
+
+                string seleccionCursos;
+                int cantidad;
+                float precioUnitario;
+
+                if (cantidad <= 0 || precioUnitario <= 0) {
+                    cout << "\nCantidad o precio inválido. Intente de nuevo.\n";
+                    continue;
+                }
+
+                cout << "Ingrese el nombres del cursos que desea comprar separado por comas: ";
+                getline(cin, seleccionCursos);
+                cout << "Cantidad total de cursos: ";
+                cin >> cantidad;
+                cout << "Precio unitario por curso ($): ";
+                cin >> precioUnitario;
+                cin.ignore();
+
+                string metodoPago;
+                cout << "\n\t--- Seleccione el método de pago ---\n";
+                cout << "1. Tarjeta Debito." <<endl;
+                cout << "2. Tarjeta Credito." <<endl;
+                cout << "3. Yape" <<endl;
+                cout << "4. Plin" << endl;
+                cout << "5. Efectivo" << endl;
+                cout << "Selecione una opcion: ";
+                int opcionMetodo;
+                cin >> opcionMetodo;
+                cin.ignore();
+                    
+                switch (opcionMetodo) {
+                case 1: metodoPago = "Tarjeta Debito"; break;
+                case 2: metodoPago = "Tarjeta Credito"; break;
+                case 3: metodoPago = "Yape"; break;
+                case 4: metodoPago = "Plin"; break;
+                case 5: metodoPago = "Efectivo"; break;
+                default: metodoPago = "Otro"; break;
+                }
+
+                // datos para agregar a la boleta
+                int mes = rand() % 12 + 1;
+                int dia = rand() % 30 + 1;
+                int horaInt = rand() % 24;
+                int minuto = rand() % 60;
+
+                string nombreCliente = actualUser->getCliente().get_nombreCompleto();
+                string correo = actualUser->getCliente().get_correo();
+                string numOperacion = "B00" + to_string(rand() % 10) + "-" + to_string(rand() % 100000);
+                string fecha = "2025-" + (mes < 10 ? "0" + to_string(mes) : to_string(mes)) + "-" + 
+                    (dia < 10 ? "0" + to_string(dia) : to_string(dia));
+                string hora = (horaInt < 10 ? "0" + to_string(horaInt) : to_string(horaInt)) + ":" +
+                    (minuto < 10 ? "0" + to_string(minuto) : to_string(minuto));
+
+
+                Boleta boletaCurso("Coursera", numOperacion, fecha, hora, metodoPago, correo,
+                    nombreCliente, cantidad, seleccionCursos, precioUnitario);
+
+                // generacion y impresion de boleta
+                boletaCurso.mostrarBoletaCurso();
+                string ruta = "boleta/cursos/" + boletaCurso.generarNombreArchivo();
+                boletaCurso.guardarBoletaEnArchivo(ruta, false);
+                boletaCurso.enviarBoleta(correo);
+                cout << "\nCompra realizada con Exito !!!" << endl;
+
+                // Registro del pagos
+                Pago<string> pagoCurso(metodoPago, actualUser->getCliente(), seleccionCursos, cantidad * precioUnitario);
+                pagoCurso.guardarEnArchivo("Pagos/pagos.txt");
+
                 
             }
             // Activar premium si es que en el registro dijo que si
@@ -308,8 +379,57 @@ public:
                 cout << "\n\t--- Activar Premium ---\n";
                 cout << "\n El precio para activar premium es de ($40 / mensual) ";
                 if (!actualUser->get_Premium()) {
+
+                    string metodoPago;
+                    cout << "\n\t--- Seleccione el método de pago ---\n";
+                    cout << "1. Tarjeta Debito." << endl;
+                    cout << "2. Tarjeta Credito." << endl;
+                    cout << "3. Yape" << endl;
+                    cout << "4. Plin" << endl;
+                    cout << "5. Efectivo" << endl;
+                    cout << "Selecione una opcion: ";
+                    int opcionMetodo;
+                    cin >> opcionMetodo;
+                    cin.ignore();
+
+                    switch (opcionMetodo) {
+                    case 1: metodoPago = "Tarjeta Debito"; break;
+                    case 2: metodoPago = "Tarjeta Credito"; break;
+                    case 3: metodoPago = "Yape"; break;
+                    case 4: metodoPago = "Plin"; break;
+                    case 5: metodoPago = "Efectivo"; break;
+                    default: metodoPago = "Otro"; break;
+                    }
+
+                    // activacion del premium
                     actualUser->set_Premiun(true);
-                    cout << "Premium activado correctamente.\n";
+                    cout << "\nPremium activado correctamente.\n";
+
+                    // datos para agregar a la boleta
+                    int mes = rand() % 12 + 1;
+                    int dia = rand() % 30 + 1;
+                    int horaInt = rand() % 24;
+                    int minuto = rand() % 60;
+
+                    string nombreCliente = actualUser->getCliente().get_nombreCompleto();
+                    string correo = actualUser->getCliente().get_correo();
+                    string numOperacion = "B00" + to_string(rand() % 10) + "-" + to_string(rand() % 100000);
+                    string fecha = "2025-" + (mes < 10 ? "0" + to_string(mes) : to_string(mes)) + "-" +
+                        (dia < 10 ? "0" + to_string(dia) : to_string(dia));
+                    string hora = (horaInt < 10 ? "0" + to_string(horaInt) : to_string(horaInt)) + ":" +
+                        (minuto < 10 ? "0" + to_string(minuto) : to_string(minuto));
+
+                    Boleta boletaPremium("Coursera", numOperacion, fecha, hora, metodoPago, correo,
+                        nombreCliente, 1, "Premium mensual", 40.0);
+
+                    boletaPremium.mostrarBoletaPremium();
+                    string ruta = "boleta/premium/" + boletaPremium.generarNombreArchivo();
+                    boletaPremium.guardarBoletaEnArchivo(ruta, true);
+                    boletaPremium.enviarBoleta(correo);
+
+                    Pago<string> pagoPremium(metodoPago, actualUser->getCliente(), "Premium mensual", 40.0);
+                    pagoPremium.guardarEnArchivo("Pagos/pagos.txt");
+
                 }
                 else {
                     cout << "Ya tienes cuenta Premium activa.\n";
@@ -340,7 +460,6 @@ public:
             else {
                 cout << "\n\tOpcion no valida. Intente de nuevo.....\n";
             }
-
         } while (opcionPago != 4);
     }
 
