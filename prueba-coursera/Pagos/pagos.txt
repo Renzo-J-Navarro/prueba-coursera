@@ -4,3 +4,6 @@ Cliente: Juanito Alcachofa, Correo: cienteJuani@gmail, Detalle: Premium mensual,
 Cliente: Juanito Alcachofa, Correo: cienteJuani@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Credito
 Cliente: Oliver, Correo: oliva@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Debito
 Cliente: Oliver, Correo: oliva@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Credito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Debito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Excel Intermedio, Monto: $14.99, Pago via: Tarjeta Debito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Debito

@@ -319,15 +319,14 @@ public:
                 int cantidad;
                 float precioUnitario;
 
-                if (cantidad <= 0 || precioUnitario <= 0) {
-                    cout << "\nCantidad o precio inválido. Intente de nuevo.\n";
-                    continue;
-                }
-
                 cout << "Ingrese el nombres del cursos que desea comprar separado por comas: ";
                 getline(cin, seleccionCursos);
                 cout << "Cantidad total de cursos: ";
                 cin >> cantidad;
+                if (cantidad <= 0 || precioUnitario <= 0) {
+                    cout << "\nCantidad o precio inválido. Intente de nuevo.\n";
+                    continue;
+                }
                 cout << "Precio unitario por curso ($): ";
                 cin >> precioUnitario;
                 cin.ignore();

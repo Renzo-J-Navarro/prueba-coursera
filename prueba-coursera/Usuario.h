@@ -50,6 +50,7 @@ public:
         _cliente.mostrarCliente();
 		cout << "Premium: " << (_premium ? "Pendiente" : "No Tiene") << endl;
     }
+    // 
     void agregarCursoCompletado(const Curso<T>& curso) {
         _cursosCompletados.push_back(curso);
     }

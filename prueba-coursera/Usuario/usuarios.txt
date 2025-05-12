@@ -9,3 +9,4 @@ Rodofo Renito,Cartografo,RodolfoElReno@gmail,Un#42Venado,998847362,1
 Merlina Huanca,Psicologa,sicomer@gmail,merlisico321,998437326,1
 Stiven,Profesor,profstiv@gmail,profeta123,998871230,1
 Oliver,Deportista,oliva@gmail,depooliva231,909093274,0
+Renzo,Programador,renzo@gmail,renzo123,998437213,0

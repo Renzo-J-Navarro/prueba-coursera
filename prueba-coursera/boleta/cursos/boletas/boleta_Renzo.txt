@@ -1,0 +1,27 @@
+
+				 COURSERA APRENDIZAJE PARA TODOS  
+				-----------------------------------------------------
+					BOLETA ELECTRONICA
+				-----------------------------------------------------
+
+				ID TRANSACCION:      	B004-10585
+				Fecha de Emision:    	2025-12-25	Hora: 	07:41
+				Nombre Titular:      	Renzo
+				Metodo de Pago:      	Tarjeta Debito
+				Correo Electronico:  	renzo@gmail
+				------------------------------------------------------
+					ACTIVACION PREMIUM
+				------------------------------------------------------
+					DETALLES DE LA COMPRA	
+				------------------------------------------------------
+				Cantidad 		 Precio 		 Subtotal		
+
+					1			 $14.99			 $14.99
+				------------------------------------------------------
+						RESUMEN DE PAGO	
+				Subtotal:    	14.99
+				Descuentos:  	0.00
+				IGV (18%):   	2.70
+				Monto Total: 	17.69
+
+*********************************************************

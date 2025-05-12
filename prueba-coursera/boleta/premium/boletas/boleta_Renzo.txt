@@ -1,0 +1,30 @@
+
+				 COURSERA APRENDIZAJE PARA TODOS  
+				-----------------------------------------------------
+					BOLETA ELECTRONICA
+				-----------------------------------------------------
+
+				ID TRANSACCION:      	B005-29667
+				Fecha de Emision:    	2025-02-25		Hora: 	05:39
+				Nombre Titular:      	Renzo
+				Metodo de Pago:      	Tarjeta Debito
+				Correo Electronico:  	renzo@gmail
+
+				------------------------------------------------------
+					CURSOS ADQUIRIDOS
+				------------------------------------------------------
+- Premium mensual
+				------------------------------------------------------
+					DETALLES DE LA COMPRA	
+				------------------------------------------------------
+				Cantidad 		 Precio 		 Subtotal		
+
+					1			 $40.00			 $40.00	
+				------------------------------------------------------
+				RESUMEN DE PAGO	
+				Subtotal:    	40.00
+				Descuentos:  	0.00
+				IGV (18%):   	7.20
+				Monto Total: 	47.20
+
+*********************************************************
