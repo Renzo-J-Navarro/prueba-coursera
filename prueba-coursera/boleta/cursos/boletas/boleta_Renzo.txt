@@ -4,10 +4,10 @@
 					BOLETA ELECTRONICA
 				-----------------------------------------------------
 
-				ID TRANSACCION:      	B004-10585
-				Fecha de Emision:    	2025-12-25	Hora: 	07:41
+				ID TRANSACCION:      	B005-6500
+				Fecha de Emision:    	2025-08-06	Hora: 	07:33
 				Nombre Titular:      	Renzo
-				Metodo de Pago:      	Tarjeta Debito
+				Metodo de Pago:      	Otro
 				Correo Electronico:  	renzo@gmail
 				------------------------------------------------------
 					ACTIVACION PREMIUM
@@ -16,12 +16,12 @@
 				------------------------------------------------------
 				Cantidad 		 Precio 		 Subtotal		
 
-					1			 $14.99			 $14.99
+					2			 $19.99			 $39.98
 				------------------------------------------------------
 						RESUMEN DE PAGO	
-				Subtotal:    	14.99
+				Subtotal:    	39.98
 				Descuentos:  	0.00
-				IGV (18%):   	2.70
-				Monto Total: 	17.69
+				IGV (18%):   	7.20
+				Monto Total: 	47.18
 
 *********************************************************

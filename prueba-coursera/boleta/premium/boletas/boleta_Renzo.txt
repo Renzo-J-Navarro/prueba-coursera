@@ -4,10 +4,10 @@
 					BOLETA ELECTRONICA
 				-----------------------------------------------------
 
-				ID TRANSACCION:      	B005-29667
-				Fecha de Emision:    	2025-02-25		Hora: 	05:39
+				ID TRANSACCION:      	B000-25683
+				Fecha de Emision:    	2025-09-07		Hora: 	19:04
 				Nombre Titular:      	Renzo
-				Metodo de Pago:      	Tarjeta Debito
+				Metodo de Pago:      	Tarjeta Credito
 				Correo Electronico:  	renzo@gmail
 
 				------------------------------------------------------

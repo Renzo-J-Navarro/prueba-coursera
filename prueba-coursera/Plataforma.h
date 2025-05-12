@@ -315,7 +315,6 @@ public:
                 listaCurso.mostrar();
 
                 string seleccionCursos;
-                string metodoPago;
                 int cantidad;
                 float precioUnitario;
 
@@ -323,25 +322,27 @@ public:
                 getline(cin, seleccionCursos);
                 cout << "Cantidad total de cursos: ";
                 cin >> cantidad;
-                if (cantidad <= 0 || precioUnitario <= 0) {
-                    cout << "\nCantidad o precio inválido. Intente de nuevo.\n";
-                    continue;
-                }
                 cout << "Precio unitario por curso ($): ";
                 cin >> precioUnitario;
                 cin.ignore();
 
+                if (cantidad <= 0 || precioUnitario <= 0) {
+                    cout << "\nCantidad o precio invlido. Intente de nuevo.\n";
+                    continue;
+                }
+
+                string metodoPago;
+                int opcionMetodo;
                 cout << "\n\t--- Seleccione el método de pago ---\n";
-                cout << "1. Tarjeta Debito." <<endl;
-                cout << "2. Tarjeta Credito." <<endl;
-                cout << "3. Yape" <<endl;
+                cout << "1. Tarjeta Debito." << endl;
+                cout << "2. Tarjeta Credito." << endl;
+                cout << "3. Yape" << endl;
                 cout << "4. Plin" << endl;
                 cout << "5. Efectivo" << endl;
                 cout << "Selecione una opcion: ";
-                int opcionMetodo;
                 cin >> opcionMetodo;
                 cin.ignore();
-                    
+
                 switch (opcionMetodo) {
                 case 1: metodoPago = "Tarjeta Debito"; break;
                 case 2: metodoPago = "Tarjeta Credito"; break;
@@ -360,7 +361,7 @@ public:
                 string nombreCliente = actualUser->getCliente().get_nombreCompleto();
                 string correo = actualUser->getCliente().get_correo();
                 string numOperacion = "B00" + to_string(rand() % 10) + "-" + to_string(rand() % 100000);
-                string fecha = "2025-" + (mes < 10 ? "0" + to_string(mes) : to_string(mes)) + "-" + 
+                string fecha = "2025-" + (mes < 10 ? "0" + to_string(mes) : to_string(mes)) + "-" +
                     (dia < 10 ? "0" + to_string(dia) : to_string(dia));
                 string hora = (horaInt < 10 ? "0" + to_string(horaInt) : to_string(horaInt)) + ":" +
                     (minuto < 10 ? "0" + to_string(minuto) : to_string(minuto));
@@ -379,6 +380,10 @@ public:
                 // Registro del pagos
                 Pago<string> pagoCurso(metodoPago, actualUser->getCliente(), seleccionCursos, cantidad * precioUnitario);
                 pagoCurso.guardarEnArchivo("Pagos/pagos.txt");
+
+
+
+
             }
             // Activar premium si es que en el registro dijo que si
             else if (opcionPago == 2) {

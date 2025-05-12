@@ -139,7 +139,7 @@ public:
     }
 
     void guardarBoletaEnArchivo(const string& ruta, bool esPremium = false ) const {  
-       fs::path path(ruta); 
+       fs::path path(ruta); // Usar el alias para experimental::filesystem  
        fs::create_directories(path.parent_path()); // Crea carpeta si no existe  
 
        ofstream archivo(ruta);  

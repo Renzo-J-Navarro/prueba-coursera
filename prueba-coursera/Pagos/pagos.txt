@@ -7,3 +7,11 @@ Cliente: Oliver, Correo: oliva@gmail, Detalle: Premium mensual, Monto: $40, Pago
 Cliente: Renzo, Correo: renzo@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Debito
 Cliente: Renzo, Correo: renzo@gmail, Detalle: Excel Intermedio, Monto: $14.99, Pago via: Tarjeta Debito
 Cliente: Renzo, Correo: renzo@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Debito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Credito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Excel Intermedio, Excel Avanzado, Monto: $29.98, Pago via: Otro
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Premium mensual, Monto: $40, Pago via: Tarjeta Credito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Programacion en C++,Diseno UX/UI,Excel Avanzado, Monto: $104.97, Pago via: Otro
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Analisis de datos con Python,Marketing Digital, Monto: $85.98, Pago via: Otro
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Excel Avanzado,Marketing Digital, Monto: $49.98, Pago via: Otro
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Excel Avanzado, Monto: $24.99, Pago via: Tarjeta Credito
+Cliente: Renzo, Correo: renzo@gmail, Detalle: Marketing Digital, Programacion en C++, Monto: $39.98, Pago via: Otro
