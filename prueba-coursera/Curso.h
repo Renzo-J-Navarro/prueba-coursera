@@ -17,7 +17,7 @@ private:
 	double _precio;
 public:
 
-	Curso(int codigoCurso, const T& nombreCurso = "N/A", bool certificado = false
+	Curso(int codigoCurso = 0, const T& nombreCurso = "N/A", bool certificado = false
 		, const T& categoria = "N/A", const T& duracion = "N/A", double precio = 0)
 		: _codigoCurso(codigoCurso), _nombreCurso(nombreCurso), _certificado(certificado), _categoria(categoria),
 		_duracion(duracion), _precio(precio) {
