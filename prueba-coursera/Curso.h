@@ -10,31 +10,31 @@ template <typename T>
 class Curso {
 private:
 	int _codigoCurso;
-	string _nombreCurso;
+	T _nombreCurso;
 	bool _certificado;
-	string _categoria;
-	string _duracion;
+	T _categoria;
+	T _duracion;
 	double _precio;
 public:
 
-	Curso(int codigoCurso, const string& nombreCurso = "N/A", bool certificado = false
-		, const string& categoria = "N/A", const string& duracion = "N/A", double precio = 0)
+	Curso(int codigoCurso, const T& nombreCurso = "N/A", bool certificado = false
+		, const T& categoria = "N/A", const T& duracion = "N/A", double precio = 0)
 		: _codigoCurso(codigoCurso), _nombreCurso(nombreCurso), _certificado(certificado), _categoria(categoria),
 		_duracion(duracion), _precio(precio) {
 	}
 	//getters
 	int get_CodigoCurso() const { return _codigoCurso; }
-	string get_NombreCurso() const { return _nombreCurso; }
+	T get_NombreCurso() const { return _nombreCurso; }
 	bool get_Certificado() const { return _certificado; }
-	string get_Categoria() const { return _categoria; }
-	string get_Duracion() const { return _duracion; }
+	T get_Categoria() const { return _categoria; }
+	T get_Duracion() const { return _duracion; }
 	double get_Precio() const { return _precio; }
 	//setters
 	void set_CodigoCurso(int codigoCurso) { _codigoCurso = codigoCurso; }
-	void set_NombreCurso(const string& nombreCurso) { _nombreCurso = nombreCurso; }
+	void set_NombreCurso(const T& nombreCurso) { _nombreCurso = nombreCurso; }
 	void set_Certificado(bool certificado) { _certificado = certificado; }
-	void set_Categoria(const string& categoria) { _categoria = categoria; }
-	void set_Duracion(const string& duracion) { _duracion = duracion; }
+	void set_Categoria(const T& categoria) { _categoria = categoria; }
+	void set_Duracion(const T& duracion) { _duracion = duracion; }
 	void set_Precio(double precio) { _precio = precio; }
 	//metodos
 	void mostrarCurso() const {
